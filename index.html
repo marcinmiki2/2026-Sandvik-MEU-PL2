@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gra Terenowa - Sandvik MEU PL2 (HD)</title>
+    <title>Gra Terenowa - Sandvik MEU PL2</title>
     <style>
         :root {
             --primary-color: #A08C64;
@@ -249,7 +249,7 @@
     <div class="container">
         <div class="header-area">
             <img src="logo.png" alt="Logo" class="app-logo" onerror="this.style.display='none'">
-            <h1>Sandvik i Orle Gniazda</h1>
+            <h1>Sandvik<br> Szlakiem Orlich Gniazd</h1>
             <div id="live-timer">00:00:00</div>
         </div>
 
@@ -346,7 +346,7 @@
             
             <div class="input-group">
                 <label for="ans-8">Puls (BPM):</label>
-                <input type="number" id="ans-8" placeholder="np. 115">
+                <input type="number" id="ans-8" placeholder="trzy cyfry">
             </div>
             
             <div id="warning-puls" class="warning-box">
@@ -529,16 +529,29 @@
             }
         }
 
-        function checkStep6() {
-            const ans = cleanString(document.getElementById('ans-6').value);
-            const valid = ["wiatrolomy", "wiatrołomy", "wiatrowaly", "wiatrowały"];
-            if (valid.some(v => ans.includes(v))) {
-                document.getElementById('error-6').style.display = "none";
-                showStep(7);
-            } else {
-                document.getElementById('error-6').style.display = "block";
-            }
-        }
+     function checkStep6() {
+    const ans = cleanString(document.getElementById('ans-6').value);
+    
+    // Dzięki cleanString sprawdzamy tylko małe litery bez polskich znaków.
+    // Uwzględniamy: wiatrołomy, wiatrowały, wiatrołom, wiatrował oraz wersje pisane osobno.
+    const valid = [
+        "wiatrolomy", 
+        "wiatrowaly", 
+        "wiatrolom", 
+        "wiatrowal",
+        "wiatro lomy", 
+        "wiatro waly", 
+        "wiatro lom", 
+        "wiatro wal"
+    ];
+    
+    if (valid.some(v => ans.includes(v))) {
+        document.getElementById('error-6').style.display = "none";
+        showStep(7);
+    } else {
+        document.getElementById('error-6').style.display = "block";
+    }
+}
 
 function checkStep8() {
     const val = parseInt(document.getElementById('ans-8').value);
@@ -578,7 +591,7 @@ function checkStep8() {
 
         function checkStep9() {
             const ans = cleanString(document.getElementById('ans-9').value);
-            const valid = ["owca", "owce", "owczki", "owieczki", "wrzosowka", "wrzosówka", "wrzosowki", "wrzosówki"];
+            const valid = ["owca", "owce", "owieczki", "wrzosowka", "wrzosówka", "wrzosowki", "wrzosówki", "OWCA", "OWCE", "OWIECZKI", "WRZOSOWKA", "WRZOSÓWKA", "WRZOSOWKI", "WRZOSÓWKI", "Owca", "Owce", "Owieczki", "Wrzosowka", "Wrzosówka", "Wrzosowki", "Wrzosówki" ];
             if (valid.some(v => ans.includes(v))) {
                 document.getElementById('error-9').style.display = "none";
                 showStep(10);
