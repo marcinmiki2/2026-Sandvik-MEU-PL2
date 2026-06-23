@@ -540,46 +540,41 @@
             }
         }
 
-        function checkStep8() {
-            const val = parseInt(document.getElementById('ans-8').value);
-            if (!val || val <= 0) return;
-            
-            const btn = document.getElementById('puls-submit-btn');
-            
-            if (val > 120) {
-                document.getElementById('current-puls-val').innerText = val;
-                document.getElementById('warning-puls').style.display = "block";
-                
-                // Blokujemy przycisk i odpalamy licznik odpoczynku na 2 minuty (120 sekund)
-                btn.disabled = true;
-                let timeLeft = 120;
-                btn.innerText = `Odpocznij jeszcze: ${timeLeft} sek.`;
-                
-                if (pulseTimer) clearInterval(pulseTimer);
-                
-                pulseTimer = setInterval(() => {
-                    timeLeft--;
-                    if (timeLeft <= 0) {
-                        clearInterval(pulseTimer);
-                        btn.disabled = false;
-                        btn.innerText = "Zatwierdź puls i ruszaj dalej";
-                        // Po kliknięciu teraz aktywny przycisk przeniesie drużynę dalej
-                        btn.onclick = function() {
-                            document.getElementById('warning-puls').style.display = "none";
-                            // Przywracamy domyślną funkcję na wypadek resetu
-                            btn.onclick = checkStep8; 
-                            showStep(9);
-                        };
-                    } else {
-                        btn.innerText = `Odpocznij jeszcze: ${timeLeft} sek.`;
-                    }
-                }, 1000);
-                
+function checkStep8() {
+    const val = parseInt(document.getElementById('ans-8').value);
+    if (!val || val <= 0) return;
+    
+    if (val > 120) {
+        document.getElementById('current-puls-val').innerText = val;
+        const warningBox = document.getElementById('warning-puls');
+        warningBox.style.display = "block";
+        
+        // Blokujemy przycisk, aby nie dało się go kliknąć ponownie
+        const btn = document.querySelector("#step-8 button");
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+        btn.style.cursor = "not-allowed";
+        
+        let timeLeft = 120; // 2 minuty przymusowego odpoczynku
+        
+        const countdownInterval = setInterval(() => {
+            timeLeft--;
+            if (timeLeft > 0) {
+                warningBox.innerHTML = `⚠️ Twój puls to ${val} BPM! Bezwzględnie zatrzymaj się, weź głęboki oddech, łyk wody i podziwiaj widoki!<br><br><strong>Trasa odblokuje się automatycznie za: ${timeLeft} sekund.</strong>`;
             } else {
-                document.getElementById('warning-puls').style.display = "none";
+                clearInterval(countdownInterval);
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                btn.style.cursor = "pointer";
                 showStep(9);
             }
-        }
+        }, 1000);
+        
+    } else {
+        document.getElementById('warning-puls').style.display = "none";
+        showStep(9);
+    }
+}
 
         function checkStep9() {
             const ans = cleanString(document.getElementById('ans-9').value);
