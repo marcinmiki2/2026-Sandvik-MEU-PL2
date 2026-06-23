@@ -6,10 +6,10 @@
     <title>Gra Terenowa - Sandvik MEU PL2 (HD)</title>
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --accent-color: #d35400;
-            --bg-color: #f4f6f7;
-            --text-color: #34495e;
+            --primary-color: #111111;
+            --accent-color: #333333;
+            --bg-color: #f5f5f5;
+            --text-color: #000000;
             --card-bg: #ffffff;
         }
 
@@ -37,7 +37,7 @@
             background: var(--card-bg);
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             margin-top: 10px;
             position: relative;
         }
@@ -46,14 +46,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 12px;
             margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .app-logo {
+            height: 35px;
+            width: auto;
+            object-fit: contain;
         }
 
         h1 {
             color: var(--primary-color);
-            font-size: 1.3rem;
+            font-size: 1.15rem;
+            text-align: center;
+            flex-grow: 1;
         }
 
         #live-timer {
@@ -65,6 +74,7 @@
             font-family: monospace;
             font-weight: bold;
             display: none;
+            white-space: nowrap;
         }
 
         h2 {
@@ -101,14 +111,15 @@
         input[type="text"], input[type="number"] {
             width: 100%;
             padding: 12px;
-            border: 2px solid #bdc3c7;
+            border: 2px solid #ccc;
             border-radius: 6px;
             font-size: 1rem;
             outline: none;
+            color: #000000;
         }
 
         input[type="text"]:focus, input[type="number"]:focus {
-            border-color: var(--accent-color);
+            border-color: var(--primary-color);
         }
 
         button {
@@ -130,7 +141,7 @@
         }
 
         button.audio-btn {
-            background-color: #3498db;
+            background-color: #444444;
             padding: 10px;
             font-size: 0.9rem;
             margin-bottom: 15px;
@@ -153,7 +164,7 @@
 
         .warning-box {
             background-color: #f1c40f;
-            color: #2c3e50;
+            color: #111111;
             padding: 15px;
             border-radius: 6px;
             margin-bottom: 15px;
@@ -169,10 +180,10 @@
 
         .image-preview {
             width: 100%;
-            max-height: 280px; /* Zwiększona dla lepszego podglądu w pionie */
-            object-fit: contain; /* Contain, by nie ucinało w podglądzie */
+            max-height: 280px;
+            object-fit: contain;
             border-radius: 6px;
-            border: 2px dashed #bdc3c7;
+            border: 2px dashed #ccc;
             display: none;
             margin-top: 15px;
         }
@@ -226,6 +237,7 @@
 
     <div class="container">
         <div class="header-area">
+            <img src="logo.png" alt="Logo" class="app-logo" onerror="this.style.display='none'">
             <h1>Gra: Sandvik i Orle Gniazda</h1>
             <div id="live-timer">00:00:00</div>
         </div>
@@ -288,7 +300,7 @@
 
         <div id="step-5" class="step">
             <h2>Punkt 4: Punkt Widokowy</h2>
-            <p id="txt-5">Obejdźcie zamek dookoła, kierujcie się na zachód. Idźcie w kierunku punktu widokowego z dwoma ławkami i dużą łąką. Usiądźcie na nich wygodnie, odpocznijcie chwilę podziwiając zamek Bobolice – to idealny punkt widokowy. Gdy będziecie na miesjcu i odpoczniecie, kliknijcie przycisk dalej.</p>
+            <p id="txt-5">Obejdźcie zamek dookoła, kierujcie się na zachód. Idźcie w kierunku punktu widokowego z dwoma ławkami i dużą łąką. Usiądźcie na nich wygodnie, odpocznijcie chwilę podziwiając zamek Bobolice – to idealny punkt widokowy. Gdy będziecie na miejscu i odpoczniecie, kliknijcie przycisk dalej.</p>
             <button onclick="playSpeech('txt-5')" class="audio-btn">🔊 Odsłuchaj lektora</button>
             
             <button onclick="showStep(6)">Odpoczęliśmy, idziemy dalej!</button>
@@ -371,7 +383,7 @@
                 <h3>OFICJALNY WYNIK GRA TERENOWA</h3>
                 <div class="result-line">
                     <strong>Drużyna:</strong>
-                    <span id="summary-team-name" style="font-weight: bold; color: var(--accent-color);">-</span>
+                    <span id="summary-team-name" style="font-weight: bold; color: var(--primary-color);">-</span>
                 </div>
                 <div class="result-line">
                     <strong>Czas rywalizacji:</strong>
@@ -383,7 +395,7 @@
                 </div>
             </div>
 
-            <p style="font-size: 0.95rem; margin-bottom: 15px; text-align: center; color: #2c3e50; font-weight: bold;">
+            <p style="font-size: 0.95rem; margin-bottom: 15px; text-align: center; color: #111111; font-weight: bold;">
                 💾 Pobierz wygenerowane zdjęcie poniżej, a następnie wyślij je WhatsApp, SMS lub TEAMS do Kierownika Regionu PL2 – on posiada prawdziwy skarb i nagrodę!
             </p>
             
@@ -586,20 +598,38 @@
 
             const canvas = document.getElementById('watermark-canvas');
             const ctx = canvas.getContext('2d');
-            const img = new Image();
             
-            img.onload = function() {
-                // Konfiguracja pod zachowanie oryginalnego kadru z aparatu (HD, bez ucinania)
-                // Skalujemy dłuższą krawędź do max 2400px (HD, gotowe pod duży ekran/wydruk)
+            // Tworzymy dwa obiekty Image: dla zdjęcia bazowego i logotypu
+            const img = new Image();
+            const logoImg = new Image();
+            
+            let loadedCount = 0;
+            function checkAllLoaded() {
+                loadedCount++;
+                if (loadedCount === 2) {
+                    drawEverything();
+                }
+            }
+            
+            img.onload = checkAllLoaded;
+            img.onerror = function() { callback(); };
+            
+            logoImg.onload = checkAllLoaded;
+            // W razie braku pliku logo na serwerze, rysujemy pamiątkę bez błędu
+            logoImg.onerror = function() { drawEverything(true); }; 
+            
+            img.src = tempPhotoData;
+            logoImg.src = 'logo.png';
+
+            function drawEverything(skipLogo = false) {
                 let targetWidth, targetHeight;
-                let maxEdge = 2400; // Kompromis między jakością a stabilnością Canvas na telefonie
-                
+                let maxEdge = 2400;
                 let imgRatio = img.width / img.height;
                 
-                if (imgRatio > 1) { // Poziome
+                if (imgRatio > 1) { 
                     targetWidth = Math.min(img.width, maxEdge);
                     targetHeight = targetWidth / imgRatio;
-                } else { // Pionowe lub kwadratowe
+                } else { 
                     targetHeight = Math.min(img.height, maxEdge);
                     targetWidth = targetHeight * imgRatio;
                 }
@@ -607,40 +637,53 @@
                 canvas.width = targetWidth;
                 canvas.height = targetHeight;
                 
-                // Aktywacja filtrów wygładzania obrazu
                 ctx.imageSmoothingEnabled = true;
                 ctx.imageSmoothingQuality = 'high';
                 
-                // Rysujemy całe zdjęcie, bez ucinania (kadr oryginalny)
                 ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
                 
-                // Konstrukcja dolnego paska wyników (skalowana proporcjonalnie do wysokości)
-                const barHeight = Math.floor(targetHeight * 0.12); // Pasek zajmuje 12% wysokości
-                if (barHeight < 60) barHeight = 60; // Bezpiecznik
+                // --- RYSOWANIE CZARNEGO LOGO W PRAWYM GÓRNYM ROGU ZDJĘCIA ---
+                if (!skipLogo && logoImg.width > 0) {
+                    // Skalowanie logo: wysokość logo ustawiamy na 6% wysokości całego zdjęcia
+                    const logoHeight = targetHeight * 0.06;
+                    const logoWidth = logoHeight * (logoImg.width / logoImg.height);
+                    
+                    // Margines od krawędzi (3% szerokości/wysokości)
+                    const marginX = targetWidth * 0.03;
+                    const marginY = targetHeight * 0.03;
+                    
+                    const logoX = targetWidth - logoWidth - marginX;
+                    const logoY = marginY;
+                    
+                    ctx.drawImage(logoImg, logoX, logoY, logoWidth, logoHeight);
+                }
                 
-                ctx.fillStyle = "rgba(44, 62, 80, 0.88)";
+                // --- DOLNY PASEK WYNIKÓW ---
+                const barHeight = Math.floor(targetHeight * 0.12);
+                if (barHeight < 60) barHeight = 60;
+                
+                ctx.fillStyle = "rgba(17, 17, 17, 0.92)";
                 ctx.fillRect(0, targetHeight - barHeight, targetWidth, barHeight);
                 
                 ctx.textBaseline = "middle";
                 const paddingSide = Math.floor(targetWidth * 0.04);
                 
-                // Lewa strona - Układ tekstów (skalowany)
+                // Lewa strona - Teksty
                 ctx.textAlign = "left";
-                
                 ctx.fillStyle = "#ffffff";
                 ctx.font = `bold ${Math.floor(barHeight * 0.28)}px 'Segoe UI', Arial, sans-serif`;
                 ctx.fillText(WATERMARK_HEADER, paddingSide, targetHeight - (barHeight * 0.7));
                 
                 const currentTeam = localStorage.getItem('teamName') || "Bez nazwy";
-                ctx.fillStyle = "#d35400"; 
+                ctx.fillStyle = "#ffffff"; 
                 ctx.font = `bold ${Math.floor(barHeight * 0.24)}px 'Segoe UI', Arial, sans-serif`;
                 ctx.fillText(`Drużyna: ${currentTeam}`, paddingSide, targetHeight - (barHeight * 0.42));
 
-                ctx.fillStyle = "#bdc3c7"; 
+                ctx.fillStyle = "#cccccc"; 
                 ctx.font = `${Math.floor(barHeight * 0.20)}px 'Segoe UI', Arial, sans-serif`;
                 ctx.fillText(WATERMARK_DATE, paddingSide, targetHeight - (barHeight * 0.18));
                 
-                // Prawa strona - Licznik czasu (skalowany, monospace)
+                // Prawa strona - Licznik czasu (Zielony neon)
                 ctx.textAlign = "right";
                 ctx.fillStyle = "#2ecc71"; 
                 ctx.font = `bold ${Math.floor(barHeight * 0.5)}px monospace`;
@@ -654,9 +697,7 @@
                 document.getElementById('preview-box-el').style.display = "block";
                 
                 callback();
-            };
-            img.onerror = function() { callback(); }
-            img.src = tempPhotoData;
+            }
         }
 
         function downloadWatermarkedImage() {
